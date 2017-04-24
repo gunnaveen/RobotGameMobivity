@@ -22,7 +22,6 @@ class Node
 
     void printNode();
 
-    //~Node();
 };
 
 #endif

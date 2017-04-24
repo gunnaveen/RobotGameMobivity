@@ -10,15 +10,15 @@
 
 class Board
 {
+	private:
+		std::unordered_map<std::string, Node* > nodes;
+		int size;
+
 	public:
 		Board(int sz)
 		{
 			size = sz;
 		}
-
-		Node* matrix;
-		std::unordered_map<std::string, Node* > nodes;
-		int size;
 
 		void createNodes();
 
@@ -29,6 +29,10 @@ class Board
 		std::queue<std::string> findAllPaths(Node* start, Node* end, int maxMoves);
 
 		Node* findTargetNode(Node* start, std::string path);
+
+		void playVersion1();
+
+		void playVersion2();
 
 		~Board();
 
