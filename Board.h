@@ -28,7 +28,10 @@ class Board
 
 		std::queue<std::string> findAllPaths(Node* start, Node* end, int maxMoves);
 
-		//~Board{} ////////////////////////////////////////////////MAKE A DESTRUCTOR!!!
+		Node* findTargetNode(Node* start, std::string path);
+
+		~Board();
+
 };
 
 #endif

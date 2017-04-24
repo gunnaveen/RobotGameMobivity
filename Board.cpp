@@ -85,31 +85,68 @@ void Board::buildGraph()
 }
 
 
-       Node* getNodePointer(int x, int y, std::string dir);
+Node* Board::findTargetNode(Node* start, string path)
+{
+	Node* curr = start;
+	string move = "";
+
+	while(path.length() != 0)
+	{
+		move = path.at(0);
+		path = path.substr(1);
+
+		if (move == "M")
+		{
+			if (curr->forward == NULL)
+			{		cerr << "INVALID MOVE. BOARD BOUNDARY REACHED." << endl;   }
+			else
+			{   curr = curr->forward;			}
+		}
+ 		else if (move == "L")
+		{
+			if (curr->left == NULL)
+			{		cerr << "INVALID MOVE. BOARD BOUNDARY REACHED." << endl;   }
+			else
+			{   curr = curr->left;			}
+		}
+		else if (move == "R")
+		{
+			if (curr->right == NULL)
+			{		cerr << "INVALID MOVE. BOARD BOUNDARY REACHED." << endl;   }
+			else
+			{   curr = curr->right;			}
+		}
+		else
+		{
+			cerr << "INVALID MOVE. INVALID SYMBOL ENTERED.";
+		}
+
+	}
+	return curr;
+}
+
 Node* Board::getNodePointer(int x, int y, string dir)
 {
-	Node* node = (nodes.find(to_string(x) + to_string(x) + dir))->second;
+	Node* node = (nodes.find(to_string(x) + to_string(y) + dir))->second;
   return node;
 }
 
 queue<string> Board::findAllPaths(Node* start, Node* end, int maxMoves)
 {
-	queue<pair<Node *, string>>*  bfs = new queue<pair<Node *, string>>;
+	queue<pair<Node *, string>>  bfs;
 	queue<string> results;
 
 	Node* currNode = start;
 
 	pair<Node*, string> currPair = make_pair(currNode, "");
 
-	bfs->push(currPair);
+	bfs.push(currPair);
 
-	int n = 0;
 	/* BreadthFirstSearch algorithm */
-	while (n < 1000)
+	while (1)
   {
-		n++;
-  	currPair = bfs->front();
-    bfs->pop();
+  	currPair = bfs.front();
+    bfs.pop();
 
 		currNode = currPair.first;
 
@@ -121,23 +158,33 @@ queue<string> Board::findAllPaths(Node* start, Node* end, int maxMoves)
 			}
 			else
 			{
-				delete bfs;
 				return results;
 			}
-
 		}
-
 		if (currNode->forward != NULL)
 		{
-			bfs->push(make_pair(currNode->forward, currPair.second + "M"));
+			bfs.push(make_pair(currNode->forward, currPair.second + "M"));
 		}
 		if (currNode->left != NULL)
 		{
-			bfs->push(make_pair(currNode->left, currPair.second + "L"));
+			bfs.push(make_pair(currNode->left, currPair.second + "L"));
 		}
 		if (currNode->right != NULL)
 		{
-			bfs->push(make_pair(currNode->right, currPair.second + "R"));
+			bfs.push(make_pair(currNode->right, currPair.second + "R"));
 		}
+	}
+}
+
+//Node::~Node()
+
+Board::~Board()
+{
+	auto iter = nodes.begin();
+
+	while(iter != nodes.end())
+	{
+		delete iter->second;
+		iter++;
 	}
 }

@@ -21,6 +21,8 @@ class Node
     Node* right;
 
     void printNode();
+
+    //~Node();
 };
 
 #endif

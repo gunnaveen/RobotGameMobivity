@@ -47,7 +47,13 @@ int main(){
     cout << "Edge properly reached" << endl;
   */
 
+
+
   Node* start = board.getNodePointer(2,3,"N");
+
+  Node* target = board.findTargetNode(start, "MMMLMRRR");
+  target->printNode();
+
   Node * end = board.getNodePointer(3,4,"S");
 
   queue<string> results = board.findAllPaths(start, end, 4);
